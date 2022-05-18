@@ -228,6 +228,28 @@ public class InterfazLibreria extends JFrame
 			}
 		}
 	}
+	
+	public void renombrarCategoria()
+	{
+			String categoriaCambiar = JOptionPane.showInputDialog(this, "Escriba la categoría a renombrar",
+					"categoria a renombrar");
+			String categoriaCambio = JOptionPane.showInputDialog(this, "Escriba el nuevo nombre de la categoría",
+					"nuevo nombre");
+			if (categoriaCambio != null)
+			{
+				try {
+					libreria.cambiarNombre(categoriaCambiar, categoriaCambio);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(this, "Ya existe una categoría con ese nombre", "Error de entrada",
+							JOptionPane.ERROR_MESSAGE);
+					e.printStackTrace();
+				}
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "Escribe algo...", "Error de entrada",
+						JOptionPane.ERROR_MESSAGE);
+			}
+	}
 
 	/**
 	 * Busca los libros de un autor a partir de una parte del nombre del autor que

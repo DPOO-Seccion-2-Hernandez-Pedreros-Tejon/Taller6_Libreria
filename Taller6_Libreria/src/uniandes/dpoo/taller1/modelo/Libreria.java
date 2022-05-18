@@ -425,4 +425,39 @@ public class Libreria
 		return hayAutorEnVariasCategorias;
 	}
 
+	@SuppressWarnings("unused")
+	public void cambiarNombre(String categoriaCambiar, String categoriaCambio) throws Exception
+	{
+		Categoria[] cats = darCategorias();
+		ArrayList<Libro> libs = darLibros();
+		boolean encontradaCambiar = false;
+		boolean encontradaCambio = false;
+
+		for (int i=0;i<cats.length;i++)
+		{
+		    if (categoriaCambiar.equals(cats[i].darNombre()))
+		    {
+		    	encontradaCambiar = true;
+		    }
+		    if (categoriaCambio.equals(cats[i].darNombre()))
+		    {
+		    	encontradaCambio = true;
+		    }
+		}
+		if ((encontradaCambiar == true) && (encontradaCambio == false))
+		{
+				for (Libro libro: libs)
+				{
+					if (libro.darCategoria().darNombre() == categoriaCambiar)
+					{
+						libro.darCategoria().setNombre(categoriaCambio);//cambiar el nombre en el csv
+					}	
+				}
+		}
+		else 
+		{
+			throw new Exception("el nuevo nombre ya lo tiene otra categoría");
+		}
+		
+	}
 }

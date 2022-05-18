@@ -52,6 +52,11 @@ public class Categoria
 	{
 		return nombre;
 	}
+	
+	public void setNombre(String nombre)
+	{
+		this.nombre = nombre;
+	}
 
 	/**
 	 * Consulta si esta es una categoría de ficción o no, con base en el atributo
