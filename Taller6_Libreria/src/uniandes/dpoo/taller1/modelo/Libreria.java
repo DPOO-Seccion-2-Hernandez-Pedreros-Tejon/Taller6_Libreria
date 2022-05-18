@@ -277,6 +277,26 @@ public class Libreria
 		return librosAutor;
 	}
 
+	
+	public void eliminarLibros(String autoresEliminar) throws Exception
+	{
+		
+			String[] autores = autoresEliminar.split(",");
+			for (String autor: autores)
+			{
+				ArrayList<Libro> libros = buscarLibrosAutor(autor);
+				for (Libro l: libros)
+				{
+					catalogo.remove(libros.indexOf(l));
+				}
+				if (libros.isEmpty() )
+				{
+					throw new Exception();
+				}
+			}
+		
+		
+	}
 	/**
 	 * Busca en qué categorías hay libros del autor indicado.
 	 * 
