@@ -425,7 +425,6 @@ public class Libreria
 		return hayAutorEnVariasCategorias;
 	}
 
-	@SuppressWarnings("unused")
 	public void cambiarNombre(String categoriaCambiar, String categoriaCambio) throws Exception
 	{
 		Categoria[] cats = darCategorias();
@@ -448,9 +447,10 @@ public class Libreria
 		{
 				for (Libro libro: libs)
 				{
-					if (libro.darCategoria().darNombre() == categoriaCambiar)
+					//System.out.println(li);
+					if (libro.darCategoria().darNombre().equals(categoriaCambiar))
 					{
-						libro.darCategoria().setNombre(categoriaCambio);//cambiar el nombre en el csv
+						libro.darCategoria().setNombre(categoriaCambio);
 					}	
 				}
 		}
