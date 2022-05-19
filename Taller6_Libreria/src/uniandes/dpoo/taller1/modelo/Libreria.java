@@ -20,7 +20,7 @@ public class Libreria
 	// ************************************************************************
 	// Atributos
 	// ************************************************************************
-
+	public int librosBorrados = 0;
 	/**
 	 * El arreglo con las categorías que hay en la librería
 	 */
@@ -278,25 +278,6 @@ public class Libreria
 	}
 
 	
-	public void eliminarLibros(String autoresEliminar) throws Exception
-	{
-		
-			String[] autores = autoresEliminar.split(",");
-			for (String autor: autores)
-			{
-				ArrayList<Libro> libros = buscarLibrosAutor(autor);
-				for (Libro l: libros)
-				{
-					catalogo.remove(libros.indexOf(l));
-				}
-				if (libros.isEmpty() )
-				{
-					throw new Exception();
-				}
-			}
-		
-		
-	}
 	/**
 	 * Busca en qué categorías hay libros del autor indicado.
 	 * 
@@ -451,7 +432,7 @@ public class Libreria
 		ArrayList<Libro> libs = darLibros();
 		boolean encontradaCambiar = false;
 		boolean encontradaCambio = false;
-
+		
 		for (int i=0;i<cats.length;i++)
 		{
 		    if (categoriaCambiar.equals(cats[i].darNombre()))
@@ -479,5 +460,43 @@ public class Libreria
 			throw new Exception("el nuevo nombre ya lo tiene otra categoría");
 		}
 		
+	}
+	
+	public ArrayList<Libro> eliminarLibros(String autoresEliminar) throws Exception
+	{
+		librosBorrados = 0;
+		boolean fail = false;
+		String autoresFallos = "";
+			String[] autores = autoresEliminar.split(",");
+			for (String autor: autores)
+			{
+				ArrayList<Libro> libros = buscarLibrosAutor(autor.strip());
+				if (libros.isEmpty() )
+				{
+					autoresFallos += autor + ", ";
+					fail = true;
+				}
+			}
+			if (fail == false)
+			{
+				
+				for (String autor: autores)
+				{
+					ArrayList<Libro> libros = buscarLibrosAutor(autor.strip());
+					for (Libro l: libros)
+					{
+						catalogo.remove(catalogo.indexOf(l));
+						l.darCategoria().eliminarLibro(l);
+						librosBorrados +=1;
+					}
+				}
+			}
+			if (!autoresFallos.isEmpty())
+			{
+				throw new Exception(autoresFallos);
+			}
+		
+		
+			return catalogo;
 	}
 }

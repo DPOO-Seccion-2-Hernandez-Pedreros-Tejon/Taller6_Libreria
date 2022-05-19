@@ -93,6 +93,10 @@ public class Categoria
 		libros.add(nuevoLibro);
 	}
 
+	public void eliminarLibro(Libro viejoLibro)
+	{
+		libros.remove(libros.indexOf(viejoLibro));
+	}
 	/**
 	 * Cuenta la cantidad de libros en la categoría
 	 * 
@@ -173,6 +177,8 @@ public class Categoria
 
 		return librosAutor;
 	}
+	
+	
 
 	// ************************************************************************
 	// Métodos sobrecargados

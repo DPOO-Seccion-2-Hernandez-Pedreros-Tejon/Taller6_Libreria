@@ -70,7 +70,7 @@ public class PanelBotones extends JPanel implements ActionListener
 		agregarBoton(BUSCAR_LIBRO, "Buscar libro con titulo", "./data/iconos/libros.png");
 		agregarBoton(BUSCAR_LIBROS_AUTOR, "Buscar libros de un autor", "./data/iconos/autor2.png");
 		agregarBoton(BUSCAR_CATEGORIA_AUTOR, "Buscar categorías autor", "./data/iconos/contenido.png");
-
+		agregarBoton(CAMBIAR_NOMBRE, "Cambiar nombre de una categoria", "./data/iconos/contenido.png");
 		agregarBoton(ELIMINAR_LIBROS, "Eliminar libros", "./data/iconos/contenido.png");
 		
 		agregarBoton(CALIFICACION, "Buscar libro con titulo", "./data/iconos/estrella.png");
@@ -78,7 +78,7 @@ public class PanelBotones extends JPanel implements ActionListener
 		agregarBoton(CONTAR_SIN_PORTADA, "Buscar libro con titulo", "./data/iconos/libro.png");
 		agregarBoton(CATEGORIA_MEJOR, "Buscar libro con titulo", "./data/iconos/premio.png");
 		agregarBoton(AUTOR_VARIAS_CATEGORIAS, "Buscar libro con titulo", "./data/iconos/autor.png");
-		agregarBoton(CAMBIAR_NOMBRE, "Cambiar nombre de una categoria", "./data/iconos/contenido.png");
+		
 	}
 
 	// ************************************************************************
