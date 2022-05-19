@@ -171,6 +171,36 @@ public class InterfazLibreria extends JFrame
 		{
 			libreria = new Libreria(archivo_categorias.getPath(), archivo_libros.getPath());
 			panelCategorias.actualizarCategorias(libreria.darCategorias());
+			try
+			{
+				if (libreria.darNuevasCategorias().size() != 0)
+				{
+					throw new Exception("Hubo que crear nuevas categorías.");
+				}
+			}
+			catch (Exception e)
+			{
+				String error = "";
+				if (libreria.darNuevasCategorias().size() == 1)
+				{
+					error += "Se creó la nueva categoría";
+				}
+				else
+				{
+					error += "Se crearon las nuevas categorías";
+				}
+				
+				for (Categoria nueva: libreria.darNuevasCategorias())
+				{
+					error += (" " + nueva.darNombre() + " con " + String.valueOf(nueva.darLibros().size()) + " libros,");
+				}
+				
+				error = error.substring(0, error.length()-1);
+				error += ".";
+				
+				JOptionPane.showMessageDialog(this, error, "Hubo que crear nuevas categorías",
+						JOptionPane.ERROR_MESSAGE);
+			}
 		}
 		catch (Exception e)
 		{

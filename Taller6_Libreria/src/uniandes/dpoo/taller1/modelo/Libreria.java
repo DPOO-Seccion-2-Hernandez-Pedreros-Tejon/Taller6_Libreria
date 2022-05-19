@@ -5,8 +5,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+
+import javax.swing.JOptionPane;
 
 /**
  * Esta clase agrupa toda la información de una librería: las categorías que se
@@ -30,6 +33,8 @@ public class Libreria
 	 * Una lista con los libros disponibles en la librería
 	 */
 	private ArrayList<Libro> catalogo;
+	
+	private ArrayList<Categoria> nuevas = new ArrayList<Categoria>();
 
 	// ************************************************************************
 	// Constructores
@@ -43,10 +48,9 @@ public class Libreria
 	 *                                información sobre las categorías de libros
 	 * @param nombreArchivoLibros     El nombre del archivo CSV que tiene la
 	 *                                información sobre los libros
-	 * @throws IOException Lanza esta excepción si hay algún problema leyendo un
-	 *                     archivo
+	 * @throws Exception 
 	 */
-	public Libreria(String nombreArchivoCategorias, String nombreArchivoLibros) throws IOException
+	public Libreria(String nombreArchivoCategorias, String nombreArchivoLibros) throws Exception
 	{
 		this.categorias = cargarCategorias(nombreArchivoCategorias);
 		this.catalogo = cargarCatalogo(nombreArchivoLibros);
@@ -130,10 +134,9 @@ public class Libreria
 	 * @param nombreArchivoLibros El nombre del archivo CSV que contiene la
 	 *                            información de los libros
 	 * @return Una lista con los libros que se cargaron a partir del archivo
-	 * @throws IOException Se lanza esta excepción si hay algún problema leyendo del
-	 *                     archivo
+	 * @throws Exception 
 	 */
-	private ArrayList<Libro> cargarCatalogo(String nombreArchivoLibros) throws IOException
+	private ArrayList<Libro> cargarCatalogo(String nombreArchivoLibros) throws Exception
 	{
 		ArrayList<Libro> libros = new ArrayList<Libro>();
 
@@ -141,6 +144,8 @@ public class Libreria
 		String linea = br.readLine(); // Ignorar la primera línea porque tiene los títulos:
 										// Titulo,Autor,Calificacion,Categoria,Portada,Ancho,Alto
 
+		//ArrayList<String> NombresNuevas = new ArrayList<String>();
+		
 		linea = br.readLine();
 		while (linea != null)
 		{
@@ -149,7 +154,38 @@ public class Libreria
 			String elAutor = partes[1];
 			double laCalificacion = Double.parseDouble(partes[2]);
 			String nombreCategoria = partes[3];
-			Categoria laCategoria = buscarCategoria(nombreCategoria);
+			Categoria laCategoria = null;
+		
+			laCategoria = buscarCategoria(nombreCategoria);
+			
+			if (laCategoria == null)
+			{
+				boolean i = true;
+				for(Categoria categoria: nuevas )
+				{
+					if(categoria.darNombre().equals(nombreCategoria))
+					{
+						i = false;
+						laCategoria = categoria;
+					}
+				}
+				if (i)
+				{
+					laCategoria = new Categoria(nombreCategoria, false);
+					nuevas.add(laCategoria);
+					ArrayList<Categoria> nuevasCategorias = new ArrayList<Categoria>(Arrays.asList(categorias));
+					nuevasCategorias.add(laCategoria);
+					Categoria[] arregloCategorias = new Categoria[nuevasCategorias.size()];
+					for (int j = 0; j < nuevasCategorias.size(); j++)
+					{
+						arregloCategorias[j] = nuevasCategorias.get(j);
+					}
+					categorias = arregloCategorias;
+				}
+				//JOptionPane.showMessageDialog(this, "Hubo un error leyendo los archivos", "Error de lectura",
+						//JOptionPane.ERROR_MESSAGE);
+				//e.printStackTrace();
+			}
 			String archivoPortada = partes[4];
 			int ancho = Integer.parseInt(partes[5]);
 			int alto = Integer.parseInt(partes[6]);
@@ -167,6 +203,7 @@ public class Libreria
 
 			linea = br.readLine();
 		}
+		
 
 		br.close();
 
@@ -423,6 +460,11 @@ public class Libreria
 		}
 
 		return hayAutorEnVariasCategorias;
+	}
+	
+	public ArrayList<Categoria> darNuevasCategorias()
+	{
+		return nuevas;
 	}
 
 }
