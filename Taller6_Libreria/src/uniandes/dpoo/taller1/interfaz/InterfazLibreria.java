@@ -258,7 +258,30 @@ public class InterfazLibreria extends JFrame
 			}
 		}
 	}
+	
+	public void renombrarCategoria()
+	{
+			String categoriaCambiar = JOptionPane.showInputDialog(this, "Escriba la categoría a renombrar",
+					"categoria a renombrar");
+			String categoriaCambio = JOptionPane.showInputDialog(this, "Escriba el nuevo nombre de la categoría",
+					"nuevo nombre");
+			if (categoriaCambio != null)
+			{
+				try {
+					libreria.cambiarNombre(categoriaCambiar, categoriaCambio);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(this, "Ya existe una categoría con ese nombre", "Error de entrada",
+							JOptionPane.ERROR_MESSAGE);
+					e.printStackTrace();
+				}
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "Escribe algo...", "Error de entrada",
+						JOptionPane.ERROR_MESSAGE);
+			}
+	}
 
+	
 	/**
 	 * Busca los libros de un autor a partir de una parte del nombre del autor que
 	 * haya dado el usuario.
@@ -391,6 +414,34 @@ public class InterfazLibreria extends JFrame
 	 * @throws InstantiationException
 	 * @throws ClassNotFoundException
 	 */
+	
+	public void eliminarLibros()
+	{
+			String autoresEliminar = JOptionPane.showInputDialog(this, "Escriba los nombres de los autores de los que desea eliminar libros",
+					"Nombres");
+			if (autoresEliminar != null)
+			{
+				
+				try {
+					ArrayList<Libro> libros = libreria.eliminarLibros(autoresEliminar);
+					panelLibros.actualizarLibros(libros);
+					mostrarLibro(libros.get(0));
+					JOptionPane.showMessageDialog(this, "Se eliminaron un total de " + String.valueOf(libreria.librosBorrados) + " libros.", 
+							"Libros borrados",
+							JOptionPane.INFORMATION_MESSAGE);
+				} catch (Exception e) {
+					
+					JOptionPane.showMessageDialog(this, "Los autores " + e.getMessage() + "no tienen ning�n libro que eliminar.", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "Escribe algo...", "Error de entrada",
+						JOptionPane.ERROR_MESSAGE);
+			}
+	}
+	
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException,
 			IllegalAccessException, UnsupportedLookAndFeelException
 	{

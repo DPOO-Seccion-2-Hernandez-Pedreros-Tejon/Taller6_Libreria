@@ -23,7 +23,7 @@ public class Libreria
 	// ************************************************************************
 	// Atributos
 	// ************************************************************************
-
+	public int librosBorrados = 0;
 	/**
 	 * El arreglo con las categorías que hay en la librería
 	 */
@@ -314,6 +314,7 @@ public class Libreria
 		return librosAutor;
 	}
 
+	
 	/**
 	 * Busca en qué categorías hay libros del autor indicado.
 	 * 
@@ -467,4 +468,77 @@ public class Libreria
 		return nuevas;
 	}
 
+	public void cambiarNombre(String categoriaCambiar, String categoriaCambio) throws Exception
+	{
+		Categoria[] cats = darCategorias();
+		ArrayList<Libro> libs = darLibros();
+		boolean encontradaCambiar = false;
+		boolean encontradaCambio = false;
+		
+		for (int i=0;i<cats.length;i++)
+		{
+		    if (categoriaCambiar.equals(cats[i].darNombre()))
+		    {
+		    	encontradaCambiar = true;
+		    }
+		    if (categoriaCambio.equals(cats[i].darNombre()))
+		    {
+		    	encontradaCambio = true;
+		    }
+		}
+		if ((encontradaCambiar == true) && (encontradaCambio == false))
+		{
+				for (Libro libro: libs)
+				{
+					//System.out.println(li);
+					if (libro.darCategoria().darNombre().equals(categoriaCambiar))
+					{
+						libro.darCategoria().setNombre(categoriaCambio);
+					}	
+				}
+		}
+		else 
+		{
+			throw new Exception("el nuevo nombre ya lo tiene otra categoría");
+		}
+		
+	}
+	
+	public ArrayList<Libro> eliminarLibros(String autoresEliminar) throws Exception
+	{
+		librosBorrados = 0;
+		boolean fail = false;
+		String autoresFallos = "";
+			String[] autores = autoresEliminar.split(",");
+			for (String autor: autores)
+			{
+				ArrayList<Libro> libros = buscarLibrosAutor(autor.strip());
+				if (libros.isEmpty() )
+				{
+					autoresFallos += autor + ", ";
+					fail = true;
+				}
+			}
+			if (fail == false)
+			{
+				
+				for (String autor: autores)
+				{
+					ArrayList<Libro> libros = buscarLibrosAutor(autor.strip());
+					for (Libro l: libros)
+					{
+						catalogo.remove(catalogo.indexOf(l));
+						l.darCategoria().eliminarLibro(l);
+						librosBorrados +=1;
+					}
+				}
+			}
+			if (!autoresFallos.isEmpty())
+			{
+				throw new Exception(autoresFallos);
+			}
+		
+		
+			return catalogo;
+	}
 }
